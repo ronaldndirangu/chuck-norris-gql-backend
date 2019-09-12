@@ -1,7 +1,9 @@
-import root from './root';
 import user from './user';
+import jokes from './jokes';
+import root from './root';
 
 export default [
   root,
-  user
+  user,
+  jokes
 ];
