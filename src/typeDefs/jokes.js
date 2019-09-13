@@ -11,5 +11,6 @@ export default gql`
     value: String!
     url: String
     icon_url: String
+    categories: [String!]
   }
 `;

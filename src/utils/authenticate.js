@@ -4,9 +4,8 @@ const authenticate = token => {
   if (!token) return false;
 
   // get the user token from the headers
-  const splitToken = token.split(' ')[1];
   try {
-    const isAuthenticated = jwt.verify(splitToken, process.env.SECRET_KEY);
+    const isAuthenticated = jwt.verify(token, process.env.SECRET_KEY);
     if (isAuthenticated) {
       return true;
     }
