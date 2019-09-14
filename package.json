@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
-    "start": "NODE_ENV=development nodemon -r esm"
+    "start": "NODE_ENV=development node -r esm index.js"
   },
   "dependencies": {
     "apollo-errors": "^1.9.0",

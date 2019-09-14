@@ -9,8 +9,8 @@ import { authenticate } from './utils';
 dotenv.config();
 
 const {
-  APP_PORT = 4000,
-  // NODE_ENV = 'development',
+  PORT = 4000,
+  NODE_ENV = 'development',
   DB_URL
 } = process.env;
 
@@ -34,12 +34,11 @@ const server = new ApolloServer({
     const token = req.headers.authorization || '';
     return { isAuthenticated: authenticate(token) };
   },
-  // playground: NODE_ENV !== 'production'
-  playground: true
+  playground: NODE_ENV !== 'production'
 });
 
 server.applyMiddleware({ app });
 
-app.listen({ port: APP_PORT }, () =>
-  console.log(`🚀 Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`)
+app.listen({ port: PORT }, () =>
+  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
 );
