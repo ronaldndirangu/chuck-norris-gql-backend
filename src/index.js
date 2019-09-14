@@ -10,7 +10,7 @@ dotenv.config();
 
 const {
   APP_PORT = 4000,
-  NODE_ENV = 'development',
+  // NODE_ENV = 'development',
   DB_URL
 } = process.env;
 
@@ -34,7 +34,8 @@ const server = new ApolloServer({
     const token = req.headers.authorization || '';
     return { isAuthenticated: authenticate(token) };
   },
-  playground: NODE_ENV !== 'production'
+  // playground: NODE_ENV !== 'production'
+  playground: true
 });
 
 server.applyMiddleware({ app });
