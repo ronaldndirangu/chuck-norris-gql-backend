@@ -19,6 +19,7 @@ export default gql`
     createdAt: String!
   }
   type signIn {
-    token: String
+    token: String,
+    name: String
   }
 `;

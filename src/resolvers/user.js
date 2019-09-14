@@ -1,10 +1,11 @@
 import User from '../models/user';
-import { UserInputError, AuthenticationError } from 'apollo-server-express';
+import { UserInputError } from 'apollo-server-express';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import Joi from 'joi';
 import userSchema, { signInSchema } from '../schemas/user';
 import { generateToken } from '../utils';
+import { UserError, AuthError } from '../utils/errors';
 
 export default {
   Query: {
@@ -25,26 +26,42 @@ export default {
       const user = await User.create(args);
 
       return {
+        id: user.id,
         name: user.name
       };
     },
     signIn: async (root, args, context, info) => {
       await Joi.validate(args, signInSchema, { abortEarly: false });
       const user = await User.find({ email: args.email });
-      if (!user) {
-        throw new AuthenticationError('User with the given email does not exist');
+      if (!user.length) {
+        throw new UserError({
+          data: {
+            key: 'email'
+          },
+          internalData: {
+            error: 'The user email does not exist'
+          }
+        });
       }
 
       const isValid = await bcrypt.compare(args.password, user[0].password);
       if (!isValid) {
-        throw new AuthenticationError('Wrong email or password provided');
+        throw new AuthError({
+          data: {
+            key: 'password'
+          },
+          internalData: {
+            error: 'Wrong email or password provided'
+          }
+        });
       }
 
       const { email, username, name } = user[0];
       const token = generateToken({ email, username, name });
 
       return {
-        token
+        token,
+        name
       };
     }
   }
